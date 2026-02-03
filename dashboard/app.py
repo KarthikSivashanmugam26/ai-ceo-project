@@ -101,6 +101,13 @@ def load_data():
         pipeline.clean_data()
         master_df = pipeline.engineer_kpis()
         current_state = master_df.iloc[-1].to_dict()
+
+        # Ensure models exist – train once on the server if missing
+        if not os.path.exists('models/profit_model.pkl'):
+            from models.train_models import ModelTrainer
+            trainer = ModelTrainer()
+            trainer.train_all()
+
         return master_df, current_state
     except Exception as e:
         st.error(f"Error loading data: {e}")
