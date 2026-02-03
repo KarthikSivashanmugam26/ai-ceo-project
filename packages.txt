@@ -1,0 +1,11 @@
+# Streamlit Cloud packages.txt (optional)
+# If Streamlit Cloud requires this file, uncomment and use:
+# streamlit
+# pandas
+# numpy
+# scikit-learn
+# plotly
+# joblib
+
+# Note: requirements.txt is the primary dependency file
+# This file is only needed if Streamlit Cloud specifically requires packages.txt
