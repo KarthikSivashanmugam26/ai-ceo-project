@@ -80,14 +80,17 @@ def load_data():
                     pipeline.clean_data()
                     master_df = pipeline.engineer_kpis()
                     pipeline.save_master_dataset()
-                    
+
+                    # Compute current state from master_df
+                    current_state = master_df.iloc[-1].to_dict()
+
                     # Try to train models if they don't exist
                     if not os.path.exists('models/profit_model.pkl'):
                         from models.train_models import ModelTrainer
                         trainer = ModelTrainer()
                         trainer.train_all()
                     
-                    return master_df, pipeline.current_state
+                    return master_df, current_state
                 except Exception as setup_error:
                     st.error(f"Auto-setup failed: {setup_error}")
                     st.info("Please run 'python main.py setup' in the terminal")
@@ -97,7 +100,8 @@ def load_data():
         pipeline.load_data()
         pipeline.clean_data()
         master_df = pipeline.engineer_kpis()
-        return master_df, pipeline.current_state
+        current_state = master_df.iloc[-1].to_dict()
+        return master_df, current_state
     except Exception as e:
         st.error(f"Error loading data: {e}")
         st.info("Please run 'python main.py setup' first")
